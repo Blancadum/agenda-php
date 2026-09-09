@@ -8,11 +8,11 @@
 session_start();
 
 /* Vaciamos todas las variables de sesión */
-// $_SESSION = [];
+$_SESSION = [];
 
 // Eliminamos los datos de la sesión en el servidor.
 session_destroy();
 
 // Redirigimos a la pantalla de acceso de la agenda
-header("Location: agenda.html");
+header("Location: index.html");
 exit;

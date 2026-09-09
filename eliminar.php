@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
-    header("Location: agenda.html");
+    header("Location: index.html");
     exit;
 }
 
@@ -57,8 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include "includes/header.php"; ?>
-    <?php include "includes/nav.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/nav.php"; ?>
 
     <main>
         <section>
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
     </main>
 
-    <?php include "includes/footer.php"; ?>
+    <?php include_once "includes/footer.php"; ?>
 </body>
 
 </html>

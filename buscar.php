@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
-    header("Location: agenda.html");
+    header("Location: index.html");
     exit;
 }
 
@@ -88,13 +88,17 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
                         echo "</div>";
                         echo "</div>";
                         echo "<p>";
-                        echo '<a href="actualizar.php?id=' . $i . '" style="color: #176b87; font-weight: bold; margin-right: 20px;">&#9998; Editar contacto</a>';
+                        echo '<a href="actualizar.php" style="color: #176b87; font-weight: bold; margin-right: 20px;">&#9998; Editar contacto</a>';
                         echo "</p>";
                         echo "</article>";
                     }
                 }
 
-                // Si tras revisar todos los contactos no se encontró ninguno
+                /*
+                Si tras revisar todos los contactos no se encontró ninguno
+                if (!$nombreEncontrado) {
+                
+                */
                 if (!$nombreEncontrado) {
                     echo "<article>";
                     echo "<p>No se encontró ningún contacto con el nombre: <strong>" . htmlspecialchars($nombreBuscado) . "</strong>.</p>";
@@ -107,7 +111,7 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
         </section>
     </main>
 
-    <?php include "includes/footer.php"; ?>
+    <?php include_once "includes/footer.php"; ?>
 </body>
 
 </html>

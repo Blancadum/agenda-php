@@ -28,10 +28,10 @@ El flujo de navegación y la interacción entre páginas sigue el organigrama di
 ![Estructura de la aplicación](estructura.png)
 
 ```
-agenda.html (Login)
+index.html (Login)
     │
     ▼ (POST)
-procesar_agenda.php ──[Credenciales Incorrectas]──► agenda.html
+procesos/procesar_agenda.php ──[Credenciales Incorrectas]──► index.html
     │
     ▼ [Credenciales Correctas]
 contactos.php (Página Principal - Listado)
@@ -39,7 +39,7 @@ contactos.php (Página Principal - Listado)
     ├──► buscar.php
     ├──► actualizar.php ──► contactos.php
     ├──► eliminar.php ──► contactos.php
-    └──► logout.php ──► agenda.html
+    └──► logout.php ──► index.html
 ```
 
 ---
@@ -52,15 +52,15 @@ A continuación se detalla la función y responsabilidad de cada uno de los fich
 
 | Archivo | Tipo | Descripción |
 | :--- | :---: | :--- |
-| **`agenda.html`** | HTML5 | Formulario de acceso al sistema con dos campos: **Username** y **Contraseña**. Envía los datos por `POST` a `procesar_agenda.php`. |
-| **`procesar_agenda.php`** | PHP | Valida las credenciales. Si son correctas, almacena los datos del usuario en `$_SESSION`, inicializa los arrays de contactos si no existen y redirige a `contactos.php`. Si son incorrectas, devuelve al usuario a `agenda.html`. |
+| **`index.html`** | HTML5 | Formulario de acceso al sistema con dos campos: **Username** y **Contraseña**. Envía los datos por `POST` a `procesos/procesar_agenda.php`. |
+| **`procesos/procesar_agenda.php`** | PHP | Valida las credenciales. Si son correctas, almacena los datos del usuario en `$_SESSION`, inicializa los arrays de contactos si no existen y redirige a `contactos.php`. Si son incorrectas, devuelve al usuario a `index.html`. |
 | **`contactos.php`** | PHP | Menú y pantalla principal. Verifica la sesión activa y muestra los contactos guardados en tarjetas semánticas `<article>`. Ofrece botones directos para editar y eliminar cada contacto. |
 | **`agregar.php`** | PHP | Formulario para dar de alta un nuevo contacto (recoge nombre, teléfono y correo electrónico) y enviarlo a procesar. |
-| **`procesar_datosContacto.php`** | PHP | Recibe los datos del nuevo contacto por `POST`, los añade a los arrays correspondientes de la sesión y redirige inmediatamente a `contactos.php`. |
+| **`procesos/procesar_datosContacto.php`** | PHP | Recibe los datos del nuevo contacto por `POST`, los añade a los arrays correspondientes de la sesión y redirige inmediatamente a `contactos.php`. |
 | **`buscar.php`** | PHP | Formulario y lógica de búsqueda por coincidencia exacta (`$nombreBuscado`) dentro del array de la sesión, mostrando los datos del contacto encontrado. |
-| **`actualizar.php`** | PHP | Permite editar los datos de un contacto existente a partir de su índice `$id`, actualizando la sesión. |
+| **`actualizar.php`** | PHP | Busca y edita los datos de un contacto en un único archivo, actualizando la sesión. |
 | **`eliminar.php`** | PHP | Elimina un contacto mediante `array_splice()`, asegurando que los índices numéricos (0, 1, 2...) se reordenen sin huecos. |
-| **`logout.php`** | PHP | Vía de cierre de sesión: limpia el array `$_SESSION`, destruye la sesión con `session_destroy()` y redirige a `agenda.html`. |
+| **`logout.php`** | PHP | Vía de cierre de sesión: limpia el array `$_SESSION`, destruye la sesión con `session_destroy()` y redirige a `index.html`. |
 | **`css/estilosAgenda.css`** | CSS3 | Hoja de estilos compartida que aplica la identidad visual a cabeceras, menús (`nav`), formularios, botones y tarjetas de contacto. |
 
 ---
@@ -106,7 +106,7 @@ Una sesión pasa por varias etapas:
    ```
 3. Abre tu navegador web y accede a través de la URL de Apache (no uses `file:///`):
    ```text
-   http://localhost/proyectos/agenda/agenda.html
+    http://localhost/proyectos/agenda/
    ```
 
 4. Utiliza los datos de acceso de prueba:

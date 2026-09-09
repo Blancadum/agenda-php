@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cabecera comun de las paginas de la agenda.
+ * Cabecera comun de las paginas de la agenda. Se aplica a todo menos a index.html y logout.php, porque no necesitan cabecera.
  */
 ?>
 <header>

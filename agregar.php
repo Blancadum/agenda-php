@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad: si no ha iniciado sesión, redirigimos al login
 if (!isset($_SESSION["usuario"])) {
-    header("Location: agenda.html");
+    header("Location: index.html");
     exit;
 }
 ?>
@@ -30,15 +30,15 @@ if (!isset($_SESSION["usuario"])) {
 </head>
 
 <body>
-    <?php include "includes/header.php"; ?>
-    <?php include "includes/nav.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/nav.php"; ?>
 
     <main>
         <section>
             <h2>Agregar nuevo contacto</h2>
 
             <!-- Formulario que envía los tres datos a procesar_datosContacto.php -->
-            <form method="post" action="procesar_datosContacto.php">
+            <form method="post" action="procesos/procesar_datosContacto.php">
                 <label for="nombre">Nombre:</label><br>
                 <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>" placeholder="Nombre completo" required><br>
 
@@ -55,7 +55,7 @@ if (!isset($_SESSION["usuario"])) {
         </section>
     </main>
 
-    <?php include "includes/footer.php"; ?>
+    <?php include_once "includes/footer.php"; ?>
 
 </body>
 

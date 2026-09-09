@@ -20,18 +20,18 @@ El flujo de navegación y la interacción entre páginas sigue el organigrama di
 ![Estructura de la aplicación](readme/estructura.png)
 
 ```
-agenda.html (Login)
+index.html (Login)
     │
     ▼ (POST)
-procesar_agenda.php ──[Credenciales Incorrectas]──► agenda.html
+procesos/procesar_agenda.php ──[Credenciales Incorrectas]──► index.html
     │
     ▼ [Credenciales Correctas]
 contactos.php (Página Principal - Listado)
-    ├──► agregar.php ──► procesar_datosContacto.php ──► contactos.php
+    ├──► agregar.php ──► procesos/procesar_datosContacto.php ──► contactos.php
     ├──► buscar.php
     ├──► actualizar.php ──► contactos.php
     ├──► eliminar.php ──► contactos.php
-    └──► logout.php ──► agenda.html
+    └──► logout.php ──► index.html
 ```
 
 ---
@@ -44,16 +44,20 @@ A continuación se detalla la función y responsabilidad de cada uno de los fich
 
 | Archivo | Tipo | Descripción |
 | :--- | :---: | :--- |
-| **`agenda.html`** | HTML5 | Formulario de acceso al sistema con cuatro campos: **Nombre**, **Username**, **Rol** (desplegable) y **Contraseña**. Envía los datos por `POST` a `procesar_agenda.php`. |
-| **`procesar_agenda.php`** | PHP | Valida las credenciales. Si son correctas, almacena los datos del usuario en `$_SESSION`, inicializa los arrays de contactos si no existen y redirige a `contactos.php`. Si son incorrectas, devuelve al usuario a `agenda.html`. |
+| **`index.html`** | HTML5 | Página inicial y formulario de acceso. Solo solicita **Username** y **Contraseña** y envía los datos por `POST` al controlador de `procesos/`. |
+| **`procesos/procesar_agenda.php`** | PHP | Valida las credenciales. Si son correctas, inicia la sesión, asigna el rol automáticamente, inicializa los arrays de contactos si no existen y redirige a `contactos.php`. |
 | **`contactos.php`** | PHP | Menú y pantalla principal. Verifica la sesión activa y muestra los contactos guardados en tarjetas semánticas `<article>`. Ofrece botones directos para editar y eliminar cada contacto. |
 | **`agregar.php`** | PHP | Formulario para dar de alta un nuevo contacto (recoge nombre, teléfono y correo electrónico) y enviarlo a procesar. |
-| **`procesar_datosContacto.php`** | PHP | Recibe los datos del nuevo contacto por `POST`, los añade a los arrays correspondientes de la sesión y redirige inmediatamente a `contactos.php`. |
+| **`procesos/procesar_datosContacto.php`** | PHP | Recibe los datos del nuevo contacto por `POST`, los añade a los arrays correspondientes de la sesión y redirige inmediatamente a `contactos.php`. |
 | **`buscar.php`** | PHP | Formulario y lógica de búsqueda por coincidencia exacta (`$nombreBuscado`) dentro del array de la sesión, mostrando los datos del contacto encontrado. |
-| **`actualizar.php`** | PHP | Permite editar los datos de un contacto existente a partir de su índice `$id` y subir una foto de perfil personalizada (guardada en `img/`), actualizando la sesión. |
-| **`eliminar.php`** | PHP | Elimina un contacto mediante `array_splice()`, asegurando que los índices numéricos (0, 1, 2...) se reordenen sin huecos. |
-| **`logout.php`** | PHP | Vía de cierre de sesión: limpia el array `$_SESSION`, destruye la sesión con `session_destroy()` y redirige a `agenda.html`. |
+| **`actualizar.php`** | PHP | Busca un contacto por nombre y, en el mismo archivo, muestra el formulario para cambiar su nombre, teléfono y email. |
+| **`eliminar.php`** | PHP | Muestra un formulario para eliminar un contacto por nombre. Utiliza `array_splice()` para mantener los índices ordenados. |
+| **`logout.php`** | PHP | Cierra la sesión, vacía `$_SESSION`, destruye la sesión con `session_destroy()` y redirige a `index.html`. |
+| **`includes/header.php`** | PHP | Fragmento reutilizable que muestra la cabecera, el nombre del usuario y su rol. |
+| **`includes/nav.php`** | PHP | Fragmento reutilizable con el menú de navegación de las páginas internas. |
+| **`includes/footer.php`** | PHP | Fragmento reutilizable con el pie de página. |
 | **`css/estilosAgenda.css`** | CSS3 | Hoja de estilos compartida que aplica la identidad visual a cabeceras, menús (`nav`), formularios, botones y tarjetas de contacto. |
+| **`img/`** | Imágenes | Contiene el favicon, el avatar predeterminado y las fotos de los contactos. |
 
 ---
 
@@ -86,17 +90,17 @@ Para los datos del usuario autenticado se emplean variables de sesión dedicadas
 1. Asegúrate de tener instalado **WampServer** (o XAMPP) con Apache y PHP 8+ activos (icono en verde).
 2. Clona o copia la carpeta `agenda` dentro del directorio web del servidor:
    ```text
-   C:\wamp2\www\proyectos\agenda\
+    C:\wamp2\www\proyectos\agenda\
    ```
 3. Abre tu navegador web y accede a través de la URL de Apache (no uses `file:///`):
    ```text
-   http://localhost/proyectos/agenda/agenda.html
+    http://localhost/proyectos/agenda/
    ```
 4. Utiliza los datos de acceso de prueba:
-   * **Nombre:** `Blanca`
-   * **Username:** `admin` *(o blanca)*
-   * **Rol:** `Administrador` *(o Usuario)*
-   * **Contraseña:** `1234`
+    * **Username:** `admin` *(o cualquier usuario no vacío)*
+    * **Contraseña:** `1234`
+
+El rol no se solicita en el formulario. Se asigna automáticamente: `admin` recibe el rol **Administrador** y el resto de usuarios recibe el rol **Usuario**. Después, el nombre de usuario y el rol aparecen en la cabecera.
 
 ---
 
@@ -105,6 +109,8 @@ Para los datos del usuario autenticado se emplean variables de sesión dedicadas
 * **Control de Seguridad en cada vista:** Redirección automática al login si no existe una sesión válida iniciada (`!isset($_SESSION["usuario"])`).
 * **Web Semántica:** Estructura basada en `<header>`, `<nav>`, `<main>`, `<section>`, `<article>` y `<footer>`.
 * **Seguridad Básica:** Sanitización de salidas con `htmlspecialchars()` para prevenir ataques XSS.
+* **Sesiones y cookies:** `session_start()` inicia o recupera la sesión. PHP utiliza la cookie `PHPSESSID` para identificarla, pero los contactos se guardan en el servidor dentro de `$_SESSION`.
 * **Documentación PHPDoc:** Todos los archivos PHP incluyen bloques de documentación estándar con etiquetas `@author Blanca` y `@version 1.0`.
 * **Reindexación de Arrays:** Uso de `array_splice()` en lugar de `unset()` simple para evitar errores de índice en bucles `for` tras una eliminación.
+* **Código reutilizable:** Las partes comunes se separan en `includes/header.php`, `includes/nav.php` y `includes/footer.php`, que se cargan mediante `include` o `include_once` en las páginas visuales.
 

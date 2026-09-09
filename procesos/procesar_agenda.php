@@ -5,7 +5,7 @@
  *
  * Procesa el inicio de sesión recibiendo nombre, username y password.
  * Si las credenciales son válidas, inicializa la sesión y redirige a contactos.php;
- * si no, redirige de nuevo a agenda.html.
+ * si no, redirige de nuevo a index.html.
  *
  * @author Blanca
  * @version 1.0
@@ -35,16 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirigimos a la página principal de contactos
-        header("Location: contactos.php");
+        header("Location: ../contactos.php");
         exit; // Detenemos la ejecución después de redirigir
 
     } else {
-        // Datos incorrectos: redirigimos de vuelta a agenda.html
-        header("Location: agenda.html");
+        // Datos incorrectos: redirigimos de vuelta a index.html
+        header("Location: ../index.html");
         exit;
     }
 } else {
     // Si entran directamente sin enviar el formulario, redirigimos al login
-    header("Location: agenda.html");
+    header("Location: ../index.html");
     exit;
 }

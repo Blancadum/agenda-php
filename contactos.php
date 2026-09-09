@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad: si el usuario no ha iniciado sesión, lo enviamos al login
 if (!isset($_SESSION["usuario"])) {
-    header("Location: agenda.html");
+    header("Location: index.html");
     exit;
 }
 
@@ -48,8 +48,8 @@ $totalContactos = count($_SESSION["nombre"]);
 </head>
 
 <body>
-    <?php include "includes/header.php"; ?>
-    <?php include "includes/nav.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/nav.php"; ?>
 
     <main>
         <section>
@@ -94,7 +94,7 @@ $totalContactos = count($_SESSION["nombre"]);
         </section>
     </main>
 
-    <?php include "includes/footer.php"; ?>
+    <?php include_once "includes/footer.php"; ?>
 </body>
 
 </html>

@@ -11,15 +11,14 @@
 <body>
     <header>
         <h1>Agenda de contactos</h1>
-        <p>Blanca</p>
     </header>
 
     <main>
         <section>
             <h2>Acceso al sistema</h2>
 
-            <!-- Formulario de login que envía los datos por POST a procesar_agenda.php -->
-            <form method="post" action="procesar_agenda.php">
+            <!-- Formulario de login que envía los datos por POST a procesar_agenda.php Post porque se envían de forma segura -->
+            <form method="post" action="procesos/procesar_agenda.php">
                 <label for="username">Username:</label><br>
                 <input type="text" id="username" name="username" placeholder="Ej: admin" required><br>
                 
