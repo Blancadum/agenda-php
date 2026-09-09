@@ -1,0 +1,194 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #eaf7f7;
+  color: #333;
+}
+
+/* Cabecera */
+header {
+  background-color: #20a8a8;
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+
+/* Menú de navegación */
+nav {
+  background-color: #176b87;
+  padding: 15px;
+  text-align: center;
+}
+
+/* Enlaces de la barra de navegación */
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Contenido principal */
+main {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+/* Títulos */
+h1 {
+  color: #176b87;
+}
+
+h2 {
+  color: #20a8a8;
+}
+
+/* Formularios */
+form {
+  width: 500px;
+  background-color: white;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid #b8dddd;
+  border-radius: 8px;
+}
+
+/* Campos de formulario */
+input,
+select {
+  padding: 8px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #9bcaca;
+  border-radius: 4px;
+}
+
+/* Botones */
+button {
+  background-color: #f28c28;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #d96f10;
+}
+
+/* Contactos generales */
+article {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 6px solid #20a8a8;
+  border-radius: 6px;
+}
+
+/* Grid de contactos */
+.grid-contactos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 25px;
+}
+
+/* Tarjeta individual de contacto */
+.tarjeta-contacto {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  border: 1px solid #d4eded;
+  border-top: 6px solid #20a8a8;
+  border-left: none; /* sobrescribe el borde izquierdo estándar de article */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tarjeta-contacto:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(32, 168, 168, 0.2);
+}
+
+/* Avatar de perfil */
+.avatar-foto {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 12px auto;
+  display: block;
+  object-fit: cover;
+}
+
+.tarjeta-contacto h2 {
+  font-size: 20px;
+  margin: 5px 0 12px 0;
+  color: #176b87;
+}
+
+.tarjeta-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.tarjeta-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #edf5f5;
+}
+
+.btn-editar {
+  color: #176b87;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid #176b87;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+.btn-editar:hover {
+  background-color: #176b87;
+  color: white;
+}
+
+.btn-eliminar {
+  color: #c0392b;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid #c0392b;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+.btn-eliminar:hover {
+  background-color: #c0392b;
+  color: white;
+}
+
+/* Mensajes */
+p {
+  line-height: 1.5;
+}
+
+/* Pie de página */
+footer {
+  background-color: #176b87;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
