@@ -63,12 +63,20 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
             </form>
 
             <?php
-            /** @var string $nombreBuscado Nombre introducido por el usuario en el formulario */
+
+            /** 
+             * @var string $nombreBuscado Nombre introducido por el usuario en el formulario 
+             * @var bool $nombreEncontrado Bandera que indica si hubo coincidencia
+             * @param string $fotoContacto Ruta de la foto del contacto encontrado
+             * @param string $nombreContacto Nombre del contacto encontrado
+             * @param string $telefonoContacto Teléfono del contacto encontrado
+             * @param string $emailContacto Email del contacto encontrado
+             */
+
             $nombreBuscado = trim($_GET["nombreBuscado"] ?? $_GET["nombre"] ?? "");
 
             // Si el usuario ha enviado un nombre para buscar
             if ($nombreBuscado !== "") {
-                /** @var bool $nombreEncontrado Bandera que indica si hubo coincidencia */
                 $nombreEncontrado = false;
 
                 // Recorremos todos los contactos guardados en la sesión
@@ -105,6 +113,13 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
                     echo "<p>¿Deseas agregarlo a la agenda?</p>";
                     echo '<p><a href="agregar.php?nombre=' . urlencode($nombreBuscado) . '" style="background-color: #f28c28; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; display: inline-block;">&plus; Crear contacto &quot;' . htmlspecialchars($nombreBuscado) . '&quot;</a></p>';
                     echo "</article>";
+
+
+
+                    //htmlspecialchars() se utiliza para evitar la inyección de código HTML o JavaScript en la página, protegiendo así contra ataques XSS (Cross-Site Scripting). Al mostrar el nombre buscado, se asegura de que cualquier carácter especial se convierta en su representación segura en HTML, evitando que se ejecute código malicioso. ((SONARQUBE: 2024-06))
+                    /*htmlspecialchars($nombreBuscado) . '&quot;
+                    Significa que se está mostrando el nombre buscado por el usuario en la página web, y se utiliza htmlspecialchars() para evitar problemas de seguridad relacionados con la inyección de código HTML o JavaScript. Al usar htmlspecialchars(), cualquier carácter especial en el nombre buscado se convierte en su representación segura en HTML, evitando que se ejecute código malicioso. Esto es importante para proteger la aplicación contra ataques XSS (Cross-Site Scripting).
+                    */
                 }
             }
             ?>
