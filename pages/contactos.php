@@ -31,7 +31,7 @@ if (!isset($_SESSION["foto"])) {
 }
 // Sincronizamos las fotos con los contactos existentes
 while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
-    $_SESSION["foto"][] = "img/avatar.svg";
+    $_SESSION["foto"][] = "../img/avatar.svg";
 }
 
 // Calculamos cuántos contactos tenemos guardados
@@ -45,6 +45,7 @@ $totalContactos = count($_SESSION["nombre"]);
     <title>Agenda de contactos</title>
     <!-- Enlazamos la hoja de estilos CSS -->
     <link rel="stylesheet" href="../css/estilosAgenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -65,7 +66,12 @@ $totalContactos = count($_SESSION["nombre"]);
                 <!-- Grid de contactos con fotos y tarjetitas -->
                 <div class="grid-contactos">
                     <?php for ($i = 0; $i < $totalContactos; $i++): ?>
-                        <?php $fotoContacto = !empty($_SESSION["foto"][$i]) ? $_SESSION["foto"][$i] : "img/avatar.svg"; ?>
+                        <?php
+                        $fotoContacto = !empty($_SESSION["foto"][$i]) ? $_SESSION["foto"][$i] : "../img/avatar.svg";
+                        if ($fotoContacto === "img/avatar.svg") {
+                            $fotoContacto = "../img/avatar.svg";
+                        }
+                        ?>
                         <article class="tarjeta-contacto">
                             <div class="tarjeta-avatar">
                                 <img src="<?php echo htmlspecialchars($fotoContacto); ?>" alt="Foto de perfil de <?php echo htmlspecialchars($_SESSION["nombre"][$i]); ?>" class="avatar-foto">
@@ -73,18 +79,18 @@ $totalContactos = count($_SESSION["nombre"]);
 
                             <div class="tarjeta-info">
                                 <h2><?php echo htmlspecialchars($_SESSION["nombre"][$i]); ?></h2>
-                                <p><strong>📞 Teléfono:</strong><br><?php echo htmlspecialchars($_SESSION["telefono"][$i]); ?></p>
-                                <p><strong>✉ Email:</strong><br><?php echo htmlspecialchars($_SESSION["email"][$i]); ?></p>
+                                <p><strong><i class="fa-solid fa-phone" aria-hidden="true"></i> Teléfono:</strong><br><?php echo htmlspecialchars($_SESSION["telefono"][$i]); ?></p>
+                                <p><strong><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email:</strong><br><?php echo htmlspecialchars($_SESSION["email"][$i]); ?></p>
                             </div>
 
                             <div class="tarjeta-acciones">
                                 <a href="actualizar.php" class="btn-editar">
-                                    &#9998; Actualizar por nombre
+                                    &#9998; <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Actualizar por nombre
                                 </a>
                                 <a href="eliminar.php?id=<?php echo $i; ?>"
                                     onclick="return confirm('¿Seguro que deseas eliminar este contacto?');"
                                     class="btn-eliminar">
-                                    &times; Eliminar
+                                    &times; Eliminar <i class="fa-solid fa-trash" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </article>

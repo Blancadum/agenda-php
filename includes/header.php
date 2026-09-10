@@ -5,7 +5,7 @@
  */
 ?>
 <header>
-    <h1>Agenda de contactos</h1>
+    <h1><i class="fas fa-address-book"></i> Agenda de contactos</h1>
     <p>
         <?php echo htmlspecialchars($_SESSION["nombre_usuario"] ?? "Blanca"); ?>
         <?php
@@ -14,5 +14,8 @@
             (<?php echo htmlspecialchars($_SESSION["rol"]); ?>)
         <?php endif; // endif marca el final de esta condición. 
         ?>
+        <a class="logout-icon" href="logout.php" title="Cerrar sesión" aria-label="Cerrar sesión">
+            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+        </a>
     </p>
 </header>

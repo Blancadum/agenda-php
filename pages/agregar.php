@@ -27,6 +27,7 @@ if (!isset($_SESSION["usuario"])) {
     <title>Agregar Contacto - Agenda</title>
     <!-- Enlazamos la hoja de estilos CSS -->
     <link rel="stylesheet" href="../css/estilosAgenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -39,13 +40,13 @@ if (!isset($_SESSION["usuario"])) {
 
             <!-- Formulario que envía los tres datos a procesar_datosContacto.php -->
             <form method="post" action="../procesos/procesar_datosContacto.php">
-                <label for="nombre">Nombre:</label><br>
+                <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>" placeholder="Nombre completo" required><br>
 
-                <label for="telefono">Teléfono:</label><br>
+                <label for="telefono">Teléfono:</label>
                 <input type="tel" id="telefono" name="telefono" placeholder="Ej: 600123456" required><br>
 
-                <label for="email">Email:</label><br>
+                <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Ej: contacto@ejemplo.com" required><br><br>
 
                 <!-- Botones de acción -->

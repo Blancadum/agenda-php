@@ -2,6 +2,7 @@
 
 /**
  * Pie de pagina comun de la agenda.
+ * 
  */
 ?>
 <footer>

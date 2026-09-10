@@ -6,6 +6,8 @@
 
 session_start();
 
+require_once "../includes/funciones.php";
+
 if (!isset($_SESSION["usuario"])) {
     header("Location: ../index.html");
     exit;
@@ -24,12 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($accion === "buscar") {
         $nombre_buscado = trim($_POST["nombre"] ?? "");
 
-        for ($i = 0; $i < count($_SESSION["nombre"]); $i++) {
-            if ($_SESSION["nombre"][$i] === $nombre_buscado) {
-                $contacto_actual = $i;
-                break;
-            }
-        }
+        $contacto_actual = buscarContacto($nombre_buscado);
 
         if ($contacto_actual === -1) {
             $mensaje = "Contacto no encontrado";
@@ -42,11 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $telefono_cambiado = trim($_POST["telefono"] ?? "");
         $email_cambiado = trim($_POST["email"] ?? "");
 
-        if (isset($_SESSION["nombre"][$contacto_actual]) && $nombre_cambiado !== "") {
-            $_SESSION["nombre"][$contacto_actual] = $nombre_cambiado;
-            $_SESSION["telefono"][$contacto_actual] = $telefono_cambiado;
-            $_SESSION["email"][$contacto_actual] = $email_cambiado;
-
+        if (actualizarContacto($contacto_actual, $nombre_cambiado, $telefono_cambiado, $email_cambiado)) {
             header("Location: contactos.php");
             exit;
         }
@@ -63,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Actualizar contacto</title>
     <link rel="stylesheet" href="../css/estilosAgenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -79,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php if ($contacto_actual === -1): ?>
                 <form method="post">
-                    <label for="nombre_buscado">Nombre del contacto:</label><br>
+                    <label for="nombre_buscado">Nombre del contacto:</label>
                     <input type="text" id="nombre_buscado" name="nombre" required><br><br>
                     <input type="hidden" name="accion" value="buscar">
                     <button type="submit">Buscar</button>
@@ -90,13 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="hidden" name="accion" value="actualizar">
                     <input type="hidden" name="contacto_actual" value="<?php echo $contacto_actual; ?>">
 
-                    <label for="nombre">Nombre:</label><br>
+                    <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_SESSION["nombre"][$contacto_actual]); ?>" required><br>
 
-                    <label for="telefono">Teléfono:</label><br>
+                    <label for="telefono">Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono" value="<?php echo htmlspecialchars($_SESSION["telefono"][$contacto_actual]); ?>" required><br>
 
-                    <label for="email">Email:</label><br>
+                    <label for="email">Email:</label>
                     <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION["email"][$contacto_actual]); ?>" required><br><br>
 
                     <button type="submit">Guardar cambios</button>
