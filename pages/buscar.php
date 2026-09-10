@@ -13,6 +13,8 @@
 // Continuamos con la sesión
 session_start();
 
+require_once "../includes/funciones.php"; // Incluimos todas las funciones
+
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
     header("Location: ../index.html");
@@ -41,6 +43,7 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
     <meta charset="UTF-8">
     <title>Buscar Contacto - Agenda</title>
     <link rel="stylesheet" href="../css/estilosAgenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -54,7 +57,7 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
             <!-- Formulario de búsqueda -->
             <!-- El método get es para buscar información porque lo que estoy haciendo es buscar un contacto, no añadir info -->
             <form method="get" action="buscar.php">
-                <label for="nombreBuscado">Nombre a buscar:</label><br>
+                <label for="nombreBuscado">Nombre a buscar:</label>
                 <input type="text" id="nombreBuscado" name="nombreBuscado" value="<?php echo htmlspecialchars($_GET['nombreBuscado'] ?? $_GET['nombre'] ?? ''); ?>" placeholder="Escribe el nombre a buscar..." required><br><br>
                 <button type="submit">Buscar contacto</button>
                 <?php if (isset($_GET["nombreBuscado"]) || isset($_GET["nombre"])): ?>
@@ -68,38 +71,14 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
 
             // Si el usuario ha enviado un nombre para buscar
             if ($nombreBuscado !== "") {
-                /** @var bool $nombreEncontrado Bandera que indica si hubo coincidencia */
-                $nombreEncontrado = false;
+                $indiceContacto = buscarContacto($nombreBuscado);
 
-                // Recorremos todos los contactos guardados en la sesión
-                for ($i = 0; $i < count($_SESSION["nombre"]); $i++) {
-                    // Comprobamos si el nombre del contacto coincide con el nombre buscado
-                    if ($_SESSION["nombre"][$i] == $nombreBuscado) {
-                        $nombreEncontrado = true;
-                        $fotoContacto = !empty($_SESSION["foto"][$i]) ? $_SESSION["foto"][$i] : "img/avatar.svg";
-                        echo "<article>";
-                        echo "<div style='display: flex; align-items: center; gap: 20px; margin-bottom: 15px;'>";
-                        echo "<img src='" . htmlspecialchars($fotoContacto) . "' alt='Foto de perfil de " . htmlspecialchars($_SESSION["nombre"][$i]) . "' class='avatar-foto' style='margin: 0;'>";
-                        echo "<div>";
-                        echo "<h2 style='margin: 0 0 8px 0;'>Contacto encontrado</h2>";
-                        echo "<p style='margin: 4px 0;'><strong>Nombre:</strong> " . htmlspecialchars($_SESSION["nombre"][$i]) . "</p>";
-                        echo "<p style='margin: 4px 0;'><strong>Teléfono:</strong> " . htmlspecialchars($_SESSION["telefono"][$i]) . "</p>";
-                        echo "<p style='margin: 4px 0;'><strong>Email:</strong> " . htmlspecialchars($_SESSION["email"][$i]) . "</p>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "<p>";
-                        echo '<a href="actualizar.php" style="color: #176b87; font-weight: bold; margin-right: 20px;">&#9998; Editar contacto</a>';
-                        echo "</p>";
-                        echo "</article>";
-                    }
-                }
-
-                /*
-                Si tras revisar todos los contactos no se encontró ninguno
-                if (!$nombreEncontrado) {
-                
-                */
-                if (!$nombreEncontrado) {
+                if ($indiceContacto !== -1) {
+                    mostrarContacto($indiceContacto);
+                    echo "<p>";
+                    echo '<a href="actualizar.php" style="color: #176b87; font-weight: bold; margin-right: 20px;">&#9998; Editar contacto</a>';
+                    echo "</p>";
+                } else {
                     echo "<article>";
                     echo "<p>No se encontró ningún contacto con el nombre: <strong>" . htmlspecialchars($nombreBuscado) . "</strong>.</p>";
                     echo "<p>¿Deseas agregarlo a la agenda?</p>";

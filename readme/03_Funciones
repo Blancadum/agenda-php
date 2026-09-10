@@ -1,0 +1,156 @@
+# Funciones reutilizables
+
+## Objetivo de esta rama
+
+En esta rama estamos reorganizando la lógica de la agenda para que las páginas no tengan todo el código mezclado.
+
+Antes, cada página contenía directamente los bucles y las operaciones sobre los arrays de contactos. Ahora cada tarea se coloca en una función independiente. Esto hace que el código sea más fácil de leer, mantener y reutilizar.
+
+## Nueva estructura
+
+```text
+agenda/
+|-- includes/
+|   |-- funciones.php
+|   `-- funciones/
+|       |-- buscarContacto.php
+|       |-- actualizarContacto.php
+|       |-- eliminar.php
+|       `-- mostrarContacto.php
+|-- pages/
+|   |-- buscar.php
+|   |-- actualizar.php
+|   `-- eliminar.php
+```
+
+## Archivo central
+
+El archivo `includes/funciones.php` funciona como un archivo agregador. Incluye todas las funciones mediante `require_once`:
+
+```php
+require_once __DIR__ . "/funciones/buscarContacto.php";
+require_once __DIR__ . "/funciones/actualizarContacto.php";
+require_once __DIR__ . "/funciones/eliminar.php";
+require_once __DIR__ . "/funciones/mostrarContacto.php";
+```
+
+Desde una página situada dentro de `pages/` solo hace falta incluir el archivo central:
+
+```php
+require_once "../includes/funciones.php";
+```
+
+De esta manera, la página no necesita incluir cada función por separado.
+
+## Funciones creadas
+
+### `buscarContacto($nombre)`
+
+Se encuentra en `includes/funciones/buscarContacto.php`.
+
+Recorre el array `$_SESSION["nombre"]` y compara cada nombre con el nombre recibido. Devuelve la posición del contacto si lo encuentra. Si no existe, devuelve `-1`.
+
+```php
+$indiceContacto = buscarContacto($nombreBuscado);
+```
+
+El resultado se puede comprobar así:
+
+```php
+if ($indiceContacto !== -1) {
+	// El contacto existe.
+}
+```
+
+### `mostrarContacto($posicion)`
+
+Se encuentra en `includes/funciones/mostrarContacto.php`.
+
+Recibe la posición de un contacto y muestra sus datos leyendo los arrays paralelos de la sesión:
+
+```php
+mostrarContacto($indiceContacto);
+```
+
+La función muestra el nombre, el teléfono y el email del contacto situado en esa posición.
+
+### `actualizarContacto($indice, $nombre, $telefono, $email)`
+
+Se encuentra en `includes/funciones/actualizarContacto.php`.
+
+Recibe la posición del contacto y sus nuevos datos. Actualiza los tres arrays de la sesión y devuelve:
+
+- `true` si el contacto existe y se ha actualizado.
+- `false` si el índice no existe o el nombre está vacío.
+
+```php
+$actualizado = actualizarContacto(
+	$contacto_actual,
+	$nombre_cambiado,
+	$telefono_cambiado,
+	$email_cambiado
+);
+```
+
+### `eliminarContacto($nombre)`
+
+Se encuentra en `includes/funciones/eliminar.php`.
+
+Busca un contacto por su nombre y elimina la misma posición de los arrays `nombre`, `telefono`, `email` y `foto` usando `array_splice()`.
+
+Esto es importante porque los arrays son paralelos: todos deben conservar los mismos índices.
+
+Devuelve `true` si elimina el contacto y `false` si no lo encuentra.
+
+## Flujo de búsqueda
+
+La página `buscar.php` sigue este proceso:
+
+```text
+1. El usuario escribe un nombre.
+2. buscar.php llama a buscarContacto().
+3. La función devuelve una posición o -1.
+4. Si existe, buscar.php llama a mostrarContacto().
+5. Si no existe, se muestra un mensaje y la opción de crear el contacto.
+```
+
+Ejemplo resumido:
+
+```php
+$indiceContacto = buscarContacto($nombreBuscado);
+
+if ($indiceContacto !== -1) {
+	mostrarContacto($indiceContacto);
+}
+```
+
+## Ventajas de esta organización
+
+- Cada función tiene una responsabilidad concreta.
+- Las páginas son más cortas y fáciles de entender.
+- Se evita repetir el mismo código.
+- Las funciones se pueden reutilizar desde varias páginas.
+- Los cambios futuros se hacen en un solo archivo.
+- `require_once` evita cargar dos veces la misma función.
+
+## Nota sobre `$_SESSION`
+
+Los contactos siguen guardándose temporalmente en arrays paralelos dentro de `$_SESSION`:
+
+```php
+$_SESSION["nombre"];
+$_SESSION["telefono"];
+$_SESSION["email"];
+$_SESSION["foto"];
+```
+
+Por ejemplo, el contacto situado en la posición `0` utiliza:
+
+```php
+$_SESSION["nombre"][0];
+$_SESSION["telefono"][0];
+$_SESSION["email"][0];
+$_SESSION["foto"][0];
+```
+
+Cuando se modifica o elimina un contacto, hay que trabajar con la misma posición en todos los arrays para que los datos no se mezclen.

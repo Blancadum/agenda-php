@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["nombre"][] = $nombre;
         $_SESSION["telefono"][] = $telefono;
         $_SESSION["email"][] = $email;
-        $_SESSION["foto"][] = "img/avatar.svg";
+        $_SESSION["foto"][] = "../img/avatar.svg";
     }
 
     // Una vez agregado el contacto, volvemos a la lista de contactos

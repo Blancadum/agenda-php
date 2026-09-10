@@ -13,6 +13,8 @@
 // Continuamos con la sesión
 session_start();
 
+require_once "../includes/funciones.php";
+
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
     header("Location: ../index.html");
@@ -32,15 +34,10 @@ if (!isset($_SESSION["foto"])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_a_eliminar = trim($_POST["nombre"] ?? "");
+    $posicion = buscarContacto($nombre_a_eliminar);
 
-    for ($i = 0; $i < count($_SESSION["nombre"]); $i++) {
-        if ($_SESSION["nombre"][$i] === $nombre_a_eliminar) {
-            array_splice($_SESSION["nombre"], $i, 1);
-            array_splice($_SESSION["telefono"], $i, 1);
-            array_splice($_SESSION["email"], $i, 1);
-            array_splice($_SESSION["foto"], $i, 1);
-            break;
-        }
+    if ($posicion !== -1) {
+        eliminarContacto($posicion);
     }
 
     header("Location: contactos.php");
@@ -54,11 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Eliminar Contacto - Agenda</title>
     <link rel="stylesheet" href="../css/estilosAgenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
     <?php include_once "../includes/header.php"; ?>
     <?php include_once "../includes/nav.php"; ?>
+    <!-- include_once porque no quiero que se incluya varias veces porque puede dar error -->
 
     <main>
         <section>
@@ -66,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- Formulario para eliminar por nombre -->
             <form method="post">
-                <label for="nombre">Nombre del contacto a eliminar:</label><br>
+                <label for="nombre">Nombre del contacto a eliminar:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Escribe el nombre exacto..." required><br><br>
                 <button type="submit">Eliminar</button>
             </form>
