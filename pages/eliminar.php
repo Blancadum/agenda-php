@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit;
 }
 
@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Contacto - Agenda</title>
-    <link rel="stylesheet" href="css/estilosAgenda.css">
+    <link rel="stylesheet" href="../css/estilosAgenda.css">
 </head>
 
 <body>
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/nav.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/nav.php"; ?>
 
     <main>
         <section>
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
     </main>
 
-    <?php include_once "includes/footer.php"; ?>
+    <?php include_once "../includes/footer.php"; ?>
 </body>
 
 </html>

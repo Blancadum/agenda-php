@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad: si no ha iniciado sesión, redirigimos al login
 if (!isset($_SESSION["usuario"])) {
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit;
 }
 ?>
@@ -26,19 +26,19 @@ if (!isset($_SESSION["usuario"])) {
     <meta charset="UTF-8">
     <title>Agregar Contacto - Agenda</title>
     <!-- Enlazamos la hoja de estilos CSS -->
-    <link rel="stylesheet" href="css/estilosAgenda.css">
+    <link rel="stylesheet" href="../css/estilosAgenda.css">
 </head>
 
 <body>
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/nav.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/nav.php"; ?>
 
     <main>
         <section>
             <h2>Agregar nuevo contacto</h2>
 
             <!-- Formulario que envía los tres datos a procesar_datosContacto.php -->
-            <form method="post" action="procesos/procesar_datosContacto.php">
+            <form method="post" action="../procesos/procesar_datosContacto.php">
                 <label for="nombre">Nombre:</label><br>
                 <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>" placeholder="Nombre completo" required><br>
 
@@ -55,7 +55,7 @@ if (!isset($_SESSION["usuario"])) {
         </section>
     </main>
 
-    <?php include_once "includes/footer.php"; ?>
+    <?php include_once "../includes/footer.php"; ?>
 
 </body>
 

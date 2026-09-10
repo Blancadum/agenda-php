@@ -45,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Una vez agregado el contacto, volvemos a la lista de contactos
-    header("Location: ../contactos.php");
+    header("Location: ../pages/contactos.php");
     exit; // Detenemos la ejecución
 } else {
     // Si acceden por GET, redirigimos directamente a contactos.php
-    header("Location: ../contactos.php");
+    header("Location: ../pages/contactos.php");
     exit;
 }

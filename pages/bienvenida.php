@@ -18,7 +18,7 @@ if (!isset($_SESSION["usuario"])) {
     //no se han rellenado los datos del formulario
     //y redirigimos a la página para hacer el login
 
-    header("Location: login.html");
+    header("Location: ../index.html");
     exit;
 }
 ?>
@@ -38,7 +38,7 @@ if (!isset($_SESSION["usuario"])) {
     <p>Hola, <?php echo $_SESSION["usuario"]; ?> </p>
 
     <!-- enlace para poder hacer el cierre de sesión -->
-    <a href="logout.php" title="Cierra la sesión">Cerrar sesión <img src=".\img\final.png" alt="Ícono de cierre de sesión"></a>
+    <a href="logout.php" title="Cierra la sesión">Cerrar sesión <img src="../img/final.png" alt="Ícono de cierre de sesión"></a>
 
 </body>
 

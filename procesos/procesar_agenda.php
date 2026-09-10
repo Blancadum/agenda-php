@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirigimos a la página principal de contactos
-        header("Location: ../contactos.php");
+        header("Location: ../pages/contactos.php");
         exit; // Detenemos la ejecución después de redirigir
 
     } else {

@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad
 if (!isset($_SESSION["usuario"])) {
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit;
 }
 
@@ -40,12 +40,12 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
 <head>
     <meta charset="UTF-8">
     <title>Buscar Contacto - Agenda</title>
-    <link rel="stylesheet" href="css/estilosAgenda.css">
+    <link rel="stylesheet" href="../css/estilosAgenda.css">
 </head>
 
 <body>
-    <?php include "includes/header.php"; ?>
-    <?php include "includes/nav.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/nav.php"; ?>
 
     <main>
         <section>
@@ -58,7 +58,7 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
                 <input type="text" id="nombreBuscado" name="nombreBuscado" value="<?php echo htmlspecialchars($_GET['nombreBuscado'] ?? $_GET['nombre'] ?? ''); ?>" placeholder="Escribe el nombre a buscar..." required><br><br>
                 <button type="submit">Buscar contacto</button>
                 <?php if (isset($_GET["nombreBuscado"]) || isset($_GET["nombre"])): ?>
-                    <a href="buscar.php" style="margin-left: 15px; color: #176b87; text-decoration: none;">Limpiar</a>
+                    <a href="buscar.php" style="margin-left: 15px; color: #176b87; font-weight: bold;">Limpiar</a>
                 <?php endif; ?>
             </form>
 
@@ -111,7 +111,7 @@ while (count($_SESSION["foto"]) < count($_SESSION["nombre"])) {
         </section>
     </main>
 
-    <?php include_once "includes/footer.php"; ?>
+    <?php include_once "../includes/footer.php"; ?>
 </body>
 
 </html>

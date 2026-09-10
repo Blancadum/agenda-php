@@ -15,7 +15,7 @@ session_start();
 
 // Control de seguridad: si el usuario no ha iniciado sesión, lo enviamos al login
 if (!isset($_SESSION["usuario"])) {
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit;
 }
 
@@ -44,12 +44,12 @@ $totalContactos = count($_SESSION["nombre"]);
     <meta charset="UTF-8">
     <title>Agenda de contactos</title>
     <!-- Enlazamos la hoja de estilos CSS -->
-    <link rel="stylesheet" href="css/estilosAgenda.css">
+    <link rel="stylesheet" href="../css/estilosAgenda.css">
 </head>
 
 <body>
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/nav.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/nav.php"; ?>
 
     <main>
         <section>
@@ -94,7 +94,7 @@ $totalContactos = count($_SESSION["nombre"]);
         </section>
     </main>
 
-    <?php include_once "includes/footer.php"; ?>
+    <?php include_once "../includes/footer.php"; ?>
 </body>
 
 </html>

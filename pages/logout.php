@@ -14,5 +14,5 @@ $_SESSION = [];
 session_destroy();
 
 // Redirigimos a la pantalla de acceso de la agenda
-header("Location: index.html");
+header("Location: ../index.html");
 exit;
